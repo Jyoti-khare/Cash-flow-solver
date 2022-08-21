@@ -81,7 +81,7 @@ int main() {
 
 /*
 Output will be:
-Rahul pays 50 to Ajay
-Rahul pays 10 to Neha
+shiva pays 50 to Ajay
+shiva pays 10 to Neha
 Total transactions to be made: 2
 */
