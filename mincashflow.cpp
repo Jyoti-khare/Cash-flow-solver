@@ -11,28 +11,37 @@ public:
 };
 
 int main() {
-    int no_of_transactions, friends;
+    int no_of_transactions;
+    cout<<endl;
+    cout<<"---------------------------------------"<<endl;
+    
     cout<<"No of transactions:"<<" ";
     cin >> no_of_transactions;
-    cout<<"No. of friends:"<<" ";
-    cin>> friends;
-    string x, y;
+   
+    string payer, receiver; // x - debit person | y - credit person
     int amount;
     map<string, int> net;
 
+    cout<<"---------------------------------------"<<endl;
     cout<<"Enter transactions in the given format:"<<endl;
-    cout<<"Debit_person    Credit_person    amount"<<endl;
+    cout<<"Payer needs to pay AMOUNT to Receiver."<<endl;
+    cout<<"---------------------------------------"<<endl;
+    cout<<"|    Payer     Receiver     amount    |"<<endl;
+    cout<<"---------------------------------------"<<endl;
+
+    //LOOP FOR USER_INPUT & MAINTAIN AMOUNT BY ADDING AMT TO RECEIVER AND SUBTRACTING AMT FROM PAYER
     while (no_of_transactions--){
-        cin >> x >> y >> amount;
-        if (net.count(x) == 0){
-            net[x] = 0;
+        cin >> payer >> receiver >> amount;
+        if (net.count(payer) == 0){
+            net[payer] = 0;
         }
-        if (net.count(y) == 0){
-            net[y] = 0;
+        if (net.count(receiver) == 0){
+            net[receiver] = 0;
         }
-        net[x] -= amount; //subtract amount from debit_person
-        net[y] += amount; //add amount to credit_person
+        net[payer] -= amount; //subtract amount from Person1
+        net[receiver] += amount; //add amount to Person2
     }
+    cout<<"---------------------------------------"<<endl;
 
     //Iterate over the persons, add those person in the multiset who have non zero net
     multiset<pair<string, int>, person_compare> m;
@@ -44,8 +53,8 @@ int main() {
         }
     }
 
-    //settlements (start & end)
-    int count = 0;
+    //settlements 
+    int count = 0; // to count min transactions
     while (!m.empty()) {
         auto low = m.begin();
         auto high = prev(m.end());
@@ -55,7 +64,7 @@ int main() {
         int credit = high->second;
         string credit_person = high->first;
 
-        //Pop low and high
+        //after settlement of low & high, Pop low and high
         m.erase(low);
         m.erase(high);
 
@@ -73,15 +82,18 @@ int main() {
         }
         count++;
     }
+    
+    cout<<"---------------------------------------"<<endl;
     if(count==0)
         cout <<"No transactions"<< endl;
     else cout <<"Total transactions to be made:"<<" "<<count << endl;
+    cout<<"---------------------------------------"<<endl;
     return 0;
 }
 
 /*
 Output will be:
-shiva pays 50 to Ajay
-shiva pays 10 to Neha
+Rahul pays 50 to Ajay
+Rahul pays 10 to Neha
 Total transactions to be made: 2
 */
